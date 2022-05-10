@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useChannel } from './AblyReactEffect';
-import styles from './AblyChatComponent.module.css';
+import { useChannel } from './Dominoes';
+import styles from './Dominoes.module.css';
 
-const AblyChatComponent = () => {
+const Dominoes = () => {
     let inputBox = null;
     let messageEnd = null;
 
@@ -81,4 +81,4 @@ const AblyChatComponent = () => {
     );
 };
 
-export default AblyChatComponent;
+export default Dominoes;

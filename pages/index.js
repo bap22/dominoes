@@ -1,10 +1,9 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 
-const AblyChatComponent = dynamic(
-    () => import('../components/AblyChatComponent'),
-    { ssr: false }
-);
+const Dominoes = dynamic(() => import('../components/Dominoes'), {
+    ssr: false,
+});
 
 export default function Home() {
     return (
@@ -16,7 +15,7 @@ export default function Home() {
 
             <main>
                 <h1 className="title">Dominoes Demo</h1>
-                <AblyChatComponent />
+                <Dominoes />
             </main>
 
             <footer>&copy; 2022 Brett Peterson</footer>
