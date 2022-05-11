@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useChannel } from './DominoesAbly';
+import { useSmackTalkChannel } from './SmackTalkAbly';
 import styles from './Dominoes.module.css';
 
-const Dominoes = () => {
+const SmackTalk = () => {
     let inputBox = null;
     let messageEnd = null;
 
@@ -10,13 +10,13 @@ const Dominoes = () => {
     const [receivedMessages, setMessages] = useState([]);
     const messageTextIsEmpty = messageText.trim().length === 0;
 
-    const [channel, ably] = useChannel('dominoes-game', (message) => {
+    const [channel, ably] = useSmackTalkChannel('dominoes-chat', (message) => {
         const history = receivedMessages.slice(-199);
         setMessages([...history, message]);
     });
 
     const sendChatMessage = (messageText) => {
-        channel.publish({ name: 'dominoes-play', data: messageText });
+        channel.publish({ name: 'chat-message', data: messageText });
         setMessageText('');
         inputBox.focus();
     };
@@ -55,8 +55,8 @@ const Dominoes = () => {
     });
 
     return (
-        <div className={styles.playArea}>
-            <div className={styles.board}>
+        <div className={styles.chatHolder}>
+            <div className={styles.chatText}>
                 {messages}
                 <div
                     ref={(element) => {
@@ -64,9 +64,27 @@ const Dominoes = () => {
                     }}
                 ></div>
             </div>
-            <div className={styles.myDominoes}>My Dominoes</div>
+            <form onSubmit={handleFormSubmission} className={styles.form}>
+                <textarea
+                    ref={(element) => {
+                        inputBox = element;
+                    }}
+                    value={messageText}
+                    placeholder="Type a message..."
+                    onChange={(e) => setMessageText(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    className={styles.textarea}
+                ></textarea>
+                <button
+                    type="submit"
+                    className={styles.button}
+                    disabled={messageTextIsEmpty}
+                >
+                    Send
+                </button>
+            </form>
         </div>
     );
 };
 
-export default Dominoes;
+export default SmackTalk;
